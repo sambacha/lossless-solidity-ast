@@ -9,9 +9,14 @@
   "author": "Joran Honig",
   "license": "MIT",
   "dependencies": {
+    "@asgerf/dts-tree-sitter": "^0.1.0",
+    "gh-pages": "^3.1.0",
     "nan": "^2.14.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.16.9"
+    "@types/node": "^14.14.6",
+    "tree-sitter-cli": "^0.16.9",
+    "tree-sitter-javascript": "^0.16.0",
+    "typescript": "^3.9.7"
   }
 }
