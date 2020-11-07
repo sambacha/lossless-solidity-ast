@@ -1,7 +1,7 @@
 {
-  "name": "tree-sitter-solidity",
+  "name": "lossless-solidity",
   "version": "1.0.2",
-  "description": "A tree sitter parser for Solidity",
+  "description": "a lossless ast tree sitter parser for Solidity",
   "main": "index.js",
   "scripts": {
     "test": "tree-sitter generate && tree-sitter test"

@@ -3,13 +3,13 @@
 const fs = require("fs");
 const path = require("path");
 const minimist = require("minimist");
-const {execFileSync} = require('child_process');
+const { execFileSync } = require("child_process");
 
 let args = process.argv.slice(2);
 let subcommand = args.shift();
 let needsHelp = false;
 
-if (subcommand === 'help') {
+if (subcommand === "help") {
   needsHelp = true;
   subcommand = args.shift();
 }
@@ -35,11 +35,14 @@ switch (subcommand) {
         "  --profile, -P    - Render a flame graph of the parse performance (requires sudo)",
       ]);
 
-    require("./lib/cli/generate")({
-      profile: argv.profile || argv.P,
-      debug: argv.debug || argv.d,
-      properties: argv.properties
-    }, process.exit);
+    require("./lib/cli/generate")(
+      {
+        profile: argv.profile || argv.P,
+        debug: argv.debug || argv.d,
+        properties: argv.properties,
+      },
+      process.exit
+    );
     break;
 
   case "build":
@@ -49,12 +52,12 @@ switch (subcommand) {
       ]);
 
     require("./lib/cli/generate")({}, () => {
-      const nodeGyp = require.resolve('node-gyp/bin/node-gyp.js');
-      if (!fs.existsSync(path.join('build', 'config.gypi'))) {
-        execFileSync(nodeGyp, ['configure'], {stdio: 'inherit'});
+      const nodeGyp = require.resolve("node-gyp/bin/node-gyp.js");
+      if (!fs.existsSync(path.join("build", "config.gypi"))) {
+        execFileSync(nodeGyp, ["configure"], { stdio: "inherit" });
       }
-      execFileSync(nodeGyp, ['build', ...args], {stdio: 'inherit'});
-      process.exit(0)
+      execFileSync(nodeGyp, ["build", ...args], { stdio: "inherit" });
+      process.exit(0);
     });
     break;
 
@@ -65,14 +68,17 @@ switch (subcommand) {
         "",
         "Arguments",
         "  --focus, -f <string>  - Only run tests whose name contain the given string",
-        "  --debug, -d           - Output debugging information during parsing"
+        "  --debug, -d           - Output debugging information during parsing",
       ]);
 
-    require("./lib/cli/test")({
-      focus: argv.focus || argv.f,
-      debug: argv.debug || argv.d,
-      debugGraph: argv['debug-graph'] || argv.D
-    }, process.exit);
+    require("./lib/cli/test")(
+      {
+        focus: argv.focus || argv.f,
+        debug: argv.debug || argv.d,
+        debugGraph: argv["debug-graph"] || argv.D,
+      },
+      process.exit
+    );
     break;
 
   case "parse":
@@ -93,33 +99,35 @@ switch (subcommand) {
         "  --edit <edits>     - Reparse the file after performing the given edit.",
         "                       For example, pass '5,3,\"x\"' to delete three characters and",
         "                       insert an 'x' at index 5. You can repeat this flag multiple times",
-        "                       to perform a series of edits."
+        "                       to perform a series of edits.",
       ]);
 
-    require("./lib/cli/parse")({
-      codePaths: codePaths,
-      debugGraph: argv['debug-graph'] || argv.D,
-      debug: argv.debug || argv.d,
-      quiet: argv.quiet || argv.q,
-      time: argv.time || argv.t,
-      profile: argv.profile || argv.P,
-      heapProfile: argv.heap || argv.H,
-      repeat: argv.repeat,
-      edits: argv.edit,
-      properties: argv.properties
-    }, process.exit);
+    require("./lib/cli/parse")(
+      {
+        codePaths: codePaths,
+        debugGraph: argv["debug-graph"] || argv.D,
+        debug: argv.debug || argv.d,
+        quiet: argv.quiet || argv.q,
+        time: argv.time || argv.t,
+        profile: argv.profile || argv.P,
+        heapProfile: argv.heap || argv.H,
+        repeat: argv.repeat,
+        edits: argv.edit,
+        properties: argv.properties,
+      },
+      process.exit
+    );
     break;
 
   default:
     usage("<generate|test|parse|build> [flags]", [
-      "Run `tree-sitter <command> --help` for more information about a particular command."
-    ])
+      "Run `tree-sitter <command> --help` for more information about a particular command.",
+    ]);
     break;
 }
 
 function usage(command, lines) {
   console.log("Usage: tree-sitter " + command + "\n");
-  if (lines)
-    console.log(lines.join('\n') + '\n')
+  if (lines) console.log(lines.join("\n") + "\n");
   process.exit(0);
 }
