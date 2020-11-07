@@ -4,7 +4,8 @@
   "description": "a lossless ast tree sitter parser for Solidity",
   "main": "index.js",
   "scripts": {
-    "test": "tree-sitter generate && tree-sitter test"
+    "test": "tree-sitter generate && tree-sitter test",
+    "web": "yarn run tree-sitter web-ui"
   },
   "author": "Joran Honig",
   "license": "MIT",
